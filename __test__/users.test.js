@@ -139,27 +139,6 @@ describe("Testing user controller", () => {
       },
     );
 
-    // it('should not register a user with an already existing email', (done) => {
-    //     (done) => {
-    //         chai.request(app)
-    //         .post(signupUrl)
-    //         .send({
-    //           firstName: 'bill',
-    //           lastName: 'gates',
-    //           email: 'bill@gates.com',
-    //           password: 'password',
-    //           confirmPassword: 'password',
-    //         })
-    //         .end((error, responce) => {
-    //           expect(responce.body).to.be.an('object');
-    //           expect(responce).to.have.status(400);
-    //           expect(responce.body.error).to.be.a('string');
-    //           expect(responce.body.error).to.equal('Email already exists');
-    //           done();
-    //         })
-    //     }
-    //   },
-    // );
   });
   
  
