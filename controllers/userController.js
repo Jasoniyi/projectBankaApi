@@ -62,7 +62,43 @@ class UserController {
     return res.status(201).json({ status: 201, data: { ...userSchema } });
   }
 
- 
+  static signin(req, res) {
+    const {
+      firstName, lastName, email, password, confirmPassword 
+    } = req.body
+
+    if (!email) {
+      return res.status(400).json({
+        status: 400,
+        error: "email is required"
+      });
+  }
+
+  if (!password) {
+    return res.status(400).json({
+      status: 400,
+      error: "password is required"
+    });
+}
+
+  const token = jwt.sign({ data: firstName }, secret, {
+    expiresIn: "1h"
+  });
+
+
+  const userSchema = {
+    id: req.body.id,
+    firstName: firstName,
+    lastName: lastName,
+    password: password,
+    email: email,
+    type: "user",
+    isAdmin: false,
+    token
+  };
+  return res.status(201).json({ status: 201, data: { ...userSchema } });
+} 
+
 
 }
 
