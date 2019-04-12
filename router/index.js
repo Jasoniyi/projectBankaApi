@@ -9,5 +9,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/signup', Users.signup);
+router.post('/signin', Users.signin);
 
 export default router;

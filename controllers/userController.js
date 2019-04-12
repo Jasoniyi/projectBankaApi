@@ -5,7 +5,9 @@ import jwt from "jsonwebtoken";
 const salt = bcrypt.genSaltSync(10);
 const secret = "secret";
 
+
 class UserController {
+
   static signup(req, res) {
     const {
       firstName, lastName, email, password, confirmPassword 
@@ -42,7 +44,7 @@ class UserController {
     
     }
 
-    const token = jwt.sign({ data: req.body.firstName }, secret, {
+    const token = jwt.sign({ data: firstName }, secret, {
       expiresIn: "1h"
     });
 
@@ -59,6 +61,9 @@ class UserController {
     };
     return res.status(201).json({ status: 201, data: { ...userSchema } });
   }
+
+ 
+
 }
 
 export default UserController;
