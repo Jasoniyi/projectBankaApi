@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import router from './router';
 
 import accountsRouter from './router/account';
+ import transactionRouter from './router/'
 
 require('dotenv').config();
 
@@ -20,5 +21,6 @@ app.use(bodyParser.urlencoded({
 
 app.use('/api/v1', router);
 app.use('/api/v1', accountsRouter);
+app.use('/api/v1', transactionRouter);
 
 export default app;

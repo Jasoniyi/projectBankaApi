@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import Users from '../controllers/userController';
 import Accounts from '../controllers/accountController';
+import Transactions from '../controllers/transactionController'
 
 const router = Router();
 
@@ -49,6 +50,10 @@ router.delete('/accounts/:id', (req, res) => {
   })
 
 });
+
+//     -------TRANSACTIONS ------
+router.post('/transactions/:accountNumber/credit', Transactions.creditAccount);
+router.post('/transactions/:accountNumber/debit', Transactions.debitAccount);
 
 
 
