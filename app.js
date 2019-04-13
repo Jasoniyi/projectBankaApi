@@ -1,7 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import router from './router'
+import router from './router';
+
+import accountsRouter from './router/account';
 
 require('dotenv').config();
 
@@ -17,5 +19,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/api/v1', router);
+app.use('/api/v1', accountsRouter);
 
 export default app;

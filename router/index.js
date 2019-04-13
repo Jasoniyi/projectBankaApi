@@ -1,56 +1,54 @@
 import { Router } from 'express';
 
 import Users from '../controllers/userController';
+import Accounts from '../controllers/accountController';
 
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.send('hello tdd');
+  res.send('hello');
 });
 
-router.post('/auth/signup', Users.signup);
-router.post('/auth/signin', Users.signin);
+router.post('/signup', Users.signup);
+router.post('/signin', Users.signin);
 
-// creating signup api
-router.post('/auth/signup', (req, res) => {
-  
-  const user = {
-          id: users.length + 1,
-         ...req.body
-  }
 
-  users.push(user);
-  res.json({
-      "status" : 200,
-      "data" : {
-          "id": users.length + 1,
-          "firstname": req.body.firstname,
-          "lastname": req.body.lastname,
-          "email": req.body.email
+
+
+//   ------ ACCOUNTS -----
+router.get('/accounts', (req, res) => {
+  res.send('hello accounts');
+});
+
+ router.post('/accounts', Accounts.accountController);
+
+ // activate or deactive accounts
+ router.patch('/accounts/:accountNumber', (req, res)=>{
+  res.status(200).json({
+      "status": 200,
+      "data": {
+          "accountNuber": 123445,
+          "status": "active",
+          message: 'done'
       }
-  }
-  );
+  })
 });
 
-// creating signin api
-router.post('/auth/signin', (req, res) => {
-  
-  const user = {
-          id: users.length + 1,
-         ...req.body
-  }
+//delete accounts
+router.delete('/accounts/:id', (req, res) => {
+  const account = accounts.find(account => account.id === parseInt(req.params.id));
+   if (!account) res.status(404).send('account ID not found');
 
-  users.push(user);
+  const index =  accounts.indexOf(account);
+  accounts.splice(index, 1)
+
   res.json({
-      "status" : 200,
-      "data" : {
-          "id": users.length + 1,
-          "firstname": req.body.firstname,
-          "lastname": req.body.lastname,
-          "email": req.body.email
-      }
-  }
-  );
+      "status": 200,
+      "message": " Account successfully deleted"
+  })
+
 });
+
+
 
 export default router;

@@ -5,16 +5,14 @@ import jwt from "jsonwebtoken";
 const salt = bcrypt.genSaltSync(10);
 const secret = "secret";
 
-
 const users = [];
+
 class UserController {
 
   static signup(req, res) {
     const {
       firstName, lastName, email, password, confirmPassword 
     } = req.body
-
-
     if (!firstName) {
       return res.status(400).json({
         status: 400,
@@ -52,7 +50,7 @@ class UserController {
     });
 
     const userSchema = {
-      id: users.length + 1,
+      id: req.body.id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -63,14 +61,12 @@ class UserController {
       token
     };
     users.push(userSchema);
-    // console.log(users);
     return res.status(201).json({ status: 201, data: { ...userSchema } });
   }
 
   static signin(req, res) {
-    const users = [];
     const {
-      firstName, lastName, email, password
+      firstName, lastName, email, password, confirmPassword 
     } = req.body
 
     if (!email) {
@@ -102,10 +98,8 @@ class UserController {
     isAdmin: false,
     token
   };
-  users.push(userSchema);
   return res.status(201).json({ status: 201, data: { ...userSchema } });
 } 
-
 
 }
 
