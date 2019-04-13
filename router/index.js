@@ -22,8 +22,9 @@ router.get('/accounts', (req, res) => {
 
  router.post('/accounts', Accounts.accountController);
 
- // activate or deactive accounts
- router.patch('/accounts/:accountNumber', (req, res)=>{
+ 
+// activate or deactive accounts
+router.patch('/accounts/:accountNumber', (req, res)=>{
   res.status(200).json({
       "status": 200,
       "data": {
@@ -34,20 +35,6 @@ router.get('/accounts', (req, res) => {
   })
 });
 
-//delete accounts
-router.delete('/accounts/:id', (req, res) => {
-  const account = accounts.find(account => account.id === parseInt(req.params.id));
-   if (!account) res.status(404).send('account ID not found');
-
-  const index =  accounts.indexOf(account);
-  accounts.splice(index, 1)
-
-  res.json({
-      "status": 200,
-      "message": " Account successfully deleted"
-  })
-
-});
 
 
 
