@@ -35,6 +35,21 @@ router.patch('/accounts/:accountNumber', (req, res)=>{
   })
 });
 
+//delete accounts
+router.delete('/accounts/:id', (req, res) => {
+  const account = accounts.find(account => account.id === parseInt(req.params.id));
+   if (!account) res.status(404).send('account ID not found');
+
+  const index =  accounts.indexOf(account);
+  accounts.splice(index, 1)
+
+  res.json({
+      "status": 200,
+      "message": " Account successfully deleted"
+  })
+
+});
+
 
 
 
