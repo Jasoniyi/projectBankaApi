@@ -1,8 +1,16 @@
 import moment from "moment";
+import Accounts from '../controllers/accountController';
 
+const accounts  = Accounts.accounts;
 const transactions = [];
 
+
 class TransactionController {
+
+	static getAccountTransaction(req, res){
+		res.send(transactions);
+	}
+
 	static creditAccount(req, res) {
 		    const {
 		      transactionid, accountNumber, amount, cashier, createdon, transactiontype, oldBalance, newBalance
@@ -36,6 +44,20 @@ class TransactionController {
 						});
 				}
 
+				if(!createdon){
+					return res.status(400).json({
+						  status: 400,
+						  error: "date is not stated"
+						});
+				}
+
+				if(!cashier){
+					return res.status(400).json({
+						  status: 400,
+						  error: "cashier is not stated"
+						});
+				}
+
 				if(newBalance != oldBalance + amount){
 					return res.status(400).json({
 						  status: 400,
@@ -51,20 +73,24 @@ class TransactionController {
 				}
 				
 				const transactionSchema = {
-					      transactionid: req.body.transactionid,
+					      transactionid: transactions.length + 1,
 					      accountNumber: req.body.accountNumber,
 					      amount: req.body.amount,
 								cashier: req.body.cashier,
 								createdon: moment().format(),
 								transactiontype: req.body.transactiontype,
 								oldBalance: req.body.oldBalance,
-								newBalance: req.body.newBalance
-					      
+								newBalance: req.body.amount + req.body.oldBalance  
 							};
+
+							const transactioncredit = transactions.find(transaction => transaction.accountNumber === parseInt(req.params.accountNumber));
+     					if (!transactioncredit) res.status(404).send({status: 404, error: 'account ID not found'});
+
+							transactions.newBalance =  req.body.amount + req.body.oldBalance
+    					transactions.push(transactioncredit);
+
 							
-							const transactioncredit = transactions.find(transactionSchema => transactionSchema.accountNumber === Number(req.params.accountNumber));
-							res.send(transactioncredit);
-						  if (!transactioncredit) return res.status(404)
+							
 					    return res.status(201).json({ status: 201, data: { ...transactionSchema } });
 						}
 
@@ -100,6 +126,20 @@ class TransactionController {
 										error: "Amount is not stated"
 									});
 							}
+
+							if(!createdon){
+								return res.status(400).json({
+										status: 400,
+										error: "date is not stated"
+									});
+							}
+			
+							if(!cashier){
+								return res.status(400).json({
+										status: 400,
+										error: "cashier is not stated"
+									});
+							}
 			
 							if(newBalance != amount - oldBalance){
 								return res.status(400).json({
@@ -129,7 +169,7 @@ class TransactionController {
 										
 										const transactiondebit = transactions.find(transactionSchema => transactionSchema.accountNumber === Number(req.params.accountNumber));
 										res.send(transactiondebit);
-										if (!transactiondebit) return res.status(404)
+										if (!transactiondebit) 
 										return res.status(201).json({ status: 201, data: { ...transactionSchema } });
 									}
 

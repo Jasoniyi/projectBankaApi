@@ -22,7 +22,6 @@ describe("Testing user controller", () => {
           confirmPassword: "password"
         })
         .end((error, res) => {
-          console.log(res.body);
           expect(res.body).to.be.an("object");
           expect(res).to.have.status(201);
           expect(res.body.status).to.equal(201);

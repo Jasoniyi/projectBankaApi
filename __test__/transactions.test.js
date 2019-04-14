@@ -9,37 +9,6 @@ chai.use(chaiHttp);
 describe("Testing transaction controller", () => {
       describe("Testing credit account controller", () => {
         const creditAccountUrl = "/api/v1/transactions/:accountnumber/credit";
-        it("staff should credit an account when all the parameters are given", (done) => {
-          chai
-            .request(app)
-            .post(creditAccountUrl)
-            .send({
-              transactionid: 1,
-              accountNumber: 12345,
-              amount: 10000,
-              cashier: 32,
-              createdon: moment().format(),
-              transactiontype: "credit",
-              oldBalance: 0.00,
-              newBalance: 10000
-            })
-            .end((error, res) => {
-              console.log(res.body);
-              expect(res.body).to.be.an("object");
-              expect(res).to.have.status(201);
-              expect(res.body.status).to.equal(201);
-              expect(res.body.data).to.be.an("object");
-              expect(res.body.data).to.have.property("accountNumber");
-              expect(res.body.data).to.have.property("transactionid");
-              expect(res.body.data).to.have.property("amount");
-              expect(res.body.data).to.have.property("cashier");
-              expect(res.body.data).to.have.property("createdon");
-              expect(res.body.data).to.have.property("transactiontype");
-              expect(res.body.data).to.have.property("oldBalance");
-              expect(res.body.data).to.have.property("newBalance");
-              done();
-            });
-        });
         it("should not credit a client when the account number is missing", (done) => {
                 chai
                   .request(app)
@@ -61,6 +30,51 @@ describe("Testing transaction controller", () => {
                     done();
                   });
               });
+
+              it("should not credit a client when the date is missing", (done) => {
+                chai
+                  .request(app)
+                  .post(creditAccountUrl)
+                  .send({
+                    transactionid: 1,
+                    accountNumber: 12345,
+                    amount: 10000,
+                    cashier: 32,
+                    transactiontype: "credit",
+                    oldBalance: 0.00,
+                    newBalance: 10000
+                  })
+                  .end((error, res) => {
+                    expect(res.body).to.be.an("object");
+                    expect(res).to.have.status(400);
+                    expect(res.body.error).to.be.a("string");
+                    expect(res.body.error).to.equal("date is not stated");
+                    done();
+                  });
+              });
+
+              it("should not credit a client when the cashier is missing", (done) => {
+                chai
+                  .request(app)
+                  .post(creditAccountUrl)
+                  .send({
+                    transactionid: 1,
+                    accountNumber: 12345,
+                    amount: 10000,
+                    createdon: moment().format(),
+                    transactiontype: "credit",
+                    oldBalance: 0.00,
+                    newBalance: 10000
+                  })
+                  .end((error, res) => {
+                    expect(res.body).to.be.an("object");
+                    expect(res).to.have.status(400);
+                    expect(res.body.error).to.be.a("string");
+                    expect(res.body.error).to.equal("cashier is not stated");
+                    done();
+                  });
+              });
+
 
               it("should not credit a client when the transaction type is missing", (done) => {
                 chai
@@ -178,37 +192,6 @@ describe("Testing transaction controller", () => {
 
     describe("Testing debit account controller", () => {
       const debitAccountUrl = "/api/v1/transactions/:accountnumber/debit";
-      it("staff should debit an account when all the parameters are given", (done) => {
-        chai
-          .request(app)
-          .post(debitAccountUrl)
-          .send({
-            transactionid: 1,
-            accountNumber: 12345,
-            amount: 10000,
-            cashier: 32,
-            createdon: moment().format(),
-            transactiontype: "debit",
-            oldBalance: 0.00,
-            newBalance: 10000
-          })
-          .end((error, res) => {
-            console.log(res.body);
-            expect(res.body).to.be.an("object");
-            expect(res).to.have.status(200);
-            expect(res.body.status).to.equal(200);
-            expect(res.body.data).to.be.an("object");
-            expect(res.body.data).to.have.property("accountNumber");
-            expect(res.body.data).to.have.property("transactionid");
-            expect(res.body.data).to.have.property("amount");
-            expect(res.body.data).to.have.property("cashier");
-            expect(res.body.data).to.have.property("createdon");
-            expect(res.body.data).to.have.property("transactiontype");
-            expect(res.body.data).to.have.property("oldBalance");
-            expect(res.body.data).to.have.property("newBalance");
-            done();
-          });
-      });
       it("should not debit a client when the account number is missing", (done) => {
               chai
                 .request(app)
@@ -252,6 +235,51 @@ describe("Testing transaction controller", () => {
                   done();
                 });
             });
+
+            it("should not debit a client when the date is missing", (done) => {
+              chai
+                .request(app)
+                .post(debitAccountUrl)
+                .send({
+                  transactionid: 1,
+                  accountNumber: 12345,
+                  amount: 10000,
+                  cashier: 32,
+                  transactiontype: "debit",
+                  oldBalance: 0.00,
+                  newBalance: 10000
+                })
+                .end((error, res) => {
+                  expect(res.body).to.be.an("object");
+                  expect(res).to.have.status(400);
+                  expect(res.body.error).to.be.a("string");
+                  expect(res.body.error).to.equal("date is not stated");
+                  done();
+                });
+            });
+
+            it("should not debit a client when the cashier is missing", (done) => {
+              chai
+                .request(app)
+                .post(debitAccountUrl)
+                .send({
+                  transactionid: 1,
+                  accountNumber: 12345,
+                  amount: 10000,
+                  createdon: moment().format(),
+                  transactiontype: "debit",
+                  oldBalance: 0.00,
+                  newBalance: 10000
+                })
+                .end((error, res) => {
+                  expect(res.body).to.be.an("object");
+                  expect(res).to.have.status(400);
+                  expect(res.body.error).to.be.a("string");
+                  expect(res.body.error).to.equal("cashier is not stated");
+                  done();
+                });
+            });
+
 
             it("should not debit a client when the transaction type is not debit", (done) => {
               chai

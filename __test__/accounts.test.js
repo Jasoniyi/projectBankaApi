@@ -189,9 +189,7 @@ describe("Testing Account controller", () => {
                     done();
                   });
               });
-
-            
-  
-
 });
 });
+
+

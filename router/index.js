@@ -16,40 +16,24 @@ router.post('/signin', Users.signin);
 
 
 
-//   ------ ACCOUNTS -----
-router.get('/accounts', (req, res) => {
-  res.send('hello accounts');
-});
-
+  //------ ACCOUNTS -----
+// router.get('/accounts', (req, res) => {
+//   res.send(accounts);
+// });
+     // creates accounts
  router.post('/accounts', Accounts.accountController);
 
+     // gets list of all accounts registered
+ router.get('/accounts', Accounts.getAccounts);
+
  
-// activate or deactive accounts
-router.patch('/accounts/:accountNumber', (req, res)=>{
-  res.status(200).json({
-      "status": 200,
-      "data": {
-          "accountNuber": 123445,
-          "status": "active",
-          message: 'done'
-      }
-  })
-});
+// activate or deactivate accounts
+router.patch('/accounts/:accountNumber', Accounts.deactivateAccount);
+router.patch('/accounts/:accountNumber', Accounts.activateAccount);
+
 
 //delete accounts
-router.delete('/accounts/:id', (req, res) => {
-  const account = accounts.find(account => account.id === parseInt(req.params.id));
-   if (!account) res.status(404).send('account ID not found');
-
-  const index =  accounts.indexOf(account);
-  accounts.splice(index, 1)
-
-  res.json({
-      "status": 200,
-      "message": " Account successfully deleted"
-  })
-
-});
+router.delete('/accounts/:accountNumber', Accounts.deleteAccount);
 
 //     -------TRANSACTIONS ------
 router.post('/transactions/:accountNumber/credit', Transactions.creditAccount);
