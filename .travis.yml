@@ -3,7 +3,13 @@ sudo: false
 language: node_js
 
 node_js:
-  - node
+  - "stable"
 
-  script:
-  - npm run test:coveralls
+cache:
+  - "node_modules"
+
+script:
+  - npm run test
+
+after_script:
+  - npm run coverage
