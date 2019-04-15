@@ -1,6 +1,18 @@
 import moment from "moment";
 
-const accounts = [];
+const accounts = [
+	{
+		"id": 1,
+		"accountNumber": 123,
+		"createdon": "moment().format()",
+		"owner": 1,
+		"firstName": "BIll",
+		"lastName": "Gates",
+		"email": "billgates@xyz.com",
+		"type": "savings",
+		"accountStatus": "active",
+		"balance": 1000	
+	}];
 
 class AccountControllers {
 		static accountController(req, res){
